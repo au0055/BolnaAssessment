@@ -1,0 +1,14 @@
+services:
+  tracker:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - SPT_LOG_LEVEL=INFO
+      - SPT_POLL_INTERVAL_OVERRIDE=30
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "python", "-c", "import httpx; httpx.get('http://localhost:8000/')" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
